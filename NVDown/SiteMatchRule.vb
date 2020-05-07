@@ -67,7 +67,7 @@
     Property CharptEncoding As String
 
     Public Sub New()
-        Me.Key = New Guid().ToString
+        Me.Key = Guid.NewGuid.ToString
         Me.Name = "新的站点规"
         Me.Link = String.Empty
         Me.CharpterListRule = String.Empty

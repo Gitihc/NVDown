@@ -39,7 +39,7 @@ Public Class SiteRuleManager
         Dim count = _listSiteRule.Count
         For i = 0 To count - 1
             Dim item = _listSiteRule(i)
-            If item.Key = item.Key Then
+            If item.Key = obj.Key Then
                 _listSiteRule.RemoveAt(i)
                 Exit For
             End If
