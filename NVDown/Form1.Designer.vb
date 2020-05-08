@@ -44,6 +44,8 @@ Partial Class Form1
         Me.txt_Name = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txt_CharptEncoding = New System.Windows.Forms.TextBox()
+        Me.Label16 = New System.Windows.Forms.Label()
         Me.txt_CharpterTitleRule = New System.Windows.Forms.TextBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -77,8 +79,6 @@ Partial Class Form1
         Me.txt_test_content = New System.Windows.Forms.TextBox()
         Me.txt_test_title = New System.Windows.Forms.TextBox()
         Me.Label14 = New System.Windows.Forms.Label()
-        Me.Label16 = New System.Windows.Forms.Label()
-        Me.txt_CharptEncoding = New System.Windows.Forms.TextBox()
         Me.tab.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -146,7 +146,6 @@ Partial Class Form1
         Me.txt_url.Name = "txt_url"
         Me.txt_url.Size = New System.Drawing.Size(352, 21)
         Me.txt_url.TabIndex = 1
-        Me.txt_url.Text = "http://www.xbiquge.la/26/26874/"
         '
         'btn_start
         '
@@ -330,6 +329,23 @@ Partial Class Form1
         Me.GroupBox1.TabIndex = 20
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "章节"
+        '
+        'txt_CharptEncoding
+        '
+        Me.txt_CharptEncoding.Location = New System.Drawing.Point(79, 166)
+        Me.txt_CharptEncoding.Name = "txt_CharptEncoding"
+        Me.txt_CharptEncoding.Size = New System.Drawing.Size(392, 21)
+        Me.txt_CharptEncoding.TabIndex = 17
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label16.Location = New System.Drawing.Point(17, 170)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(56, 17)
+        Me.Label16.TabIndex = 16
+        Me.Label16.Text = "正文编码"
         '
         'txt_CharpterTitleRule
         '
@@ -632,23 +648,6 @@ Partial Class Form1
         Me.Label14.Size = New System.Drawing.Size(56, 17)
         Me.Label14.TabIndex = 27
         Me.Label14.Text = "标题匹配"
-        '
-        'Label16
-        '
-        Me.Label16.AutoSize = True
-        Me.Label16.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label16.Location = New System.Drawing.Point(17, 170)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(56, 17)
-        Me.Label16.TabIndex = 16
-        Me.Label16.Text = "正文编码"
-        '
-        'txt_CharptEncoding
-        '
-        Me.txt_CharptEncoding.Location = New System.Drawing.Point(79, 166)
-        Me.txt_CharptEncoding.Name = "txt_CharptEncoding"
-        Me.txt_CharptEncoding.Size = New System.Drawing.Size(392, 21)
-        Me.txt_CharptEncoding.TabIndex = 17
         '
         'Form1
         '

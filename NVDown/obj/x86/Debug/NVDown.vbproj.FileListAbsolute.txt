@@ -14,9 +14,6 @@ E:\Visual Studio 2010\Projects\NVDown\NVDown\bin\Debug\HtmlAgilityPack.pdb
 E:\Visual Studio 2010\Projects\NVDown\NVDown\bin\Debug\HtmlAgilityPack.xml
 E:\Visual Studio 2010\Projects\NVDown\NVDown\obj\x86\Debug\NVDown.vbprojResolveAssemblyReference.cache
 E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\bin\Debug\NVDown.exe.config
-E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.exe
-E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.xml
-E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.pdb
 E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\bin\Debug\NVDown.exe
 E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\bin\Debug\NVDown.pdb
 E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\bin\Debug\NVDown.xml
@@ -24,7 +21,9 @@ E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\bin\Debug\HtmlAgilityPack.dl
 E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\bin\Debug\Newtonsoft.Json.dll
 E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\bin\Debug\HtmlAgilityPack.pdb
 E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\bin\Debug\HtmlAgilityPack.xml
-E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.vbprojResolveAssemblyReference.cache
 E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.Form1.resources
 E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.Resources.resources
 E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.vbproj.GenerateResource.Cache
+E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.exe
+E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.xml
+E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.pdb

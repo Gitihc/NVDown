@@ -32,21 +32,31 @@ Public Class Form1
         Me.Width = WIDTH_MIN
 
         InitListBoxSetting()
+
+        AddHandler NV.ShowInfo, AddressOf ShowInfo
         'Dim str = "&nbsp;&nbsp;&nbsp;&nbsp;<br>大周王朝，吴州，东宁府。"
         'Dim k = Regex.Replace(str, "[&nbsp;,<br>]", "")
     End Sub
 
 #Region "下载"
     Private Sub btn_start_Click(sender As System.Object, e As System.EventArgs) Handles btn_start.Click
-        btn_start.Text = IIf(btn_start.Text = "start", "stop", "start")
-        If btn_start.Text = "stop" Then
+
+        If btn_start.Text = "start" Then
             Dim link = txt_url.Text.Trim
+            If String.IsNullOrEmpty(link) Then
+                ShowInfo("请输入地址！")
+                Return
+            End If
+
             Dim r = GetMatchRule(link)
             If Not IsNothing(r) Then
+                btn_start.Text = IIf(btn_start.Text = "start", "stop", "start")
                 NV.StopDownFlag = False
                 NV.DoTask(link, r)
+            Else
+                ShowInfo("未找到匹配规则！")
             End If
-        ElseIf btn_start.Text = "start" Then
+        ElseIf btn_start.Text = "stop" Then
             NV.StopDownFlag = True
         End If
     End Sub
@@ -61,6 +71,23 @@ Public Class Form1
         Next
         Return Nothing
     End Function
+
+    Sub ShowInfo(msg As String)
+        If Me.InvokeRequired Then
+            Me.Invoke(Sub()
+                          rtb_info.Text += vbNewLine
+                          rtb_info.Text += msg
+                          rtb_info.SelectionStart = rtb_info.TextLength
+                          rtb_info.ScrollToCaret()
+                      End Sub)
+
+        Else
+            rtb_info.Text += msg
+            rtb_info.SelectionStart = rtb_info.TextLength
+            rtb_info.ScrollToCaret()
+        End If
+    End Sub
+
 #End Region
 
 #Region "设置"
@@ -72,8 +99,10 @@ Public Class Form1
 
     Private Sub btn_DeleteSiteMatch_Click(sender As System.Object, e As System.EventArgs) Handles btn_DeleteSiteMatch.Click
         Dim site = CType(listBox_Setting.SelectedItem, SiteMatchRule)
-        SiteRuleManager.DeleteItem(site)
-        InitListBoxSetting()
+        If MessageBox.Show("真的要删除" & site.Name & "吗", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.OK Then
+            SiteRuleManager.DeleteItem(site)
+            InitListBoxSetting()
+        End If
     End Sub
 
     Private Sub InitListBoxSetting()
@@ -153,11 +182,14 @@ Public Class Form1
         rhb_test_info.Text = msg
     End Sub
 
-    Private Sub txt_test_url_TextChanged(sender As System.Object, e As System.EventArgs) Handles txt_test_url.TextChanged
-        Dim url = txt_test_url.Text.Trim
-        If Not String.IsNullOrEmpty(url) Then
-            CalcRule()
+    Private Sub txt_test_url_KeyUp(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles txt_test_url.KeyUp
+        If e.KeyCode = Keys.Enter Then
+            Dim url = txt_test_url.Text.Trim
+            If Not String.IsNullOrEmpty(url) Then
+                CalcRule()
+            End If
         End If
+
     End Sub
 
     Sub CalcRule()
@@ -217,15 +249,16 @@ Public Class Form1
         Call ShowContentResult(pageHtml)
     End Sub
 
-    Private Sub txt_content_url_TextChanged(sender As System.Object, e As System.EventArgs) Handles txt_content_url.TextChanged
-        Dim url = txt_content_url.Text.Trim
-        If Not String.IsNullOrEmpty(url) Then
-            CalcContent()
+    Private Sub txt_content_url_TextChanged(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles txt_content_url.KeyUp
+        If e.KeyCode = Keys.Enter Then
+            Dim url = txt_content_url.Text.Trim
+            If Not String.IsNullOrEmpty(url) Then
+                CalcContent()
+            End If
         End If
     End Sub
 
     Sub ShowContentResult(msg As String)
-        msg = NV.RemoveSpecKey(msg)
         rtb_result_content.Text = msg
     End Sub
 
@@ -234,7 +267,6 @@ Public Class Form1
             CalcContent()
         End If
     End Sub
-
 
 #End Region
 
@@ -261,6 +293,11 @@ Public Class Form1
                 .PreCharpterRule = String.Empty
                 .NextCharpterRule = String.Empty
             End With
+            If SiteRuleManager.IsExist(rule.Link) Then
+                MsgBox("已存在相同匹配规则！")
+                Return
+            End If
+
             SiteRuleManager.AddItem(rule)
             InitListBoxSetting()
             MsgBox("添加成功！")
@@ -271,5 +308,4 @@ Public Class Form1
     End Sub
 #End Region
 
-   
 End Class

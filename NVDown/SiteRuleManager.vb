@@ -30,6 +30,18 @@ Public Class SiteRuleManager
         IO.File.WriteAllText(SavePath, jsonStr)
     End Sub
 
+    Public Shared Function IsExist(link As String) As Boolean
+        Dim count = _listSiteRule.Count
+        For i = 0 To count - 1
+            Dim item = _listSiteRule(i)
+            If item.Link = link Then
+                Return True
+                Exit For
+            End If
+        Next
+        Return False
+    End Function
+
     Public Shared Sub AddItem(obj As SiteMatchRule)
         _listSiteRule.Add(obj)
         SaveToLocation()

@@ -47,29 +47,41 @@ Public Class NV
             Dim tempHref As String = href
             Dim idx As Integer = index
             ThreadPool.QueueUserWorkItem(Sub()
+                                             Dim reTryCount As Integer = 0
                                              If Not tempHref.StartsWith("http") Then
                                                  tempHref = String.Format("{0}{1}", rule.Link, tempHref)
                                              End If
-                                             Dim contentHtml = String.Empty
-                                             If Not String.IsNullOrEmpty(rule.CharptEncoding) Then
-                                                 contentHtml = HttpHelper.GetString(tempHref, Encoding.GetEncoding(rule.CharptEncoding))
-                                             Else
-                                                 contentHtml = HttpHelper.GetString(tempHref)
-                                             End If
+                                             Try
+RetryStartPos:
+                                                 Dim contentHtml = String.Empty
+                                                 If Not String.IsNullOrEmpty(rule.CharptEncoding) Then
+                                                     contentHtml = HttpHelper.GetString(tempHref, Encoding.GetEncoding(rule.CharptEncoding))
+                                                 Else
+                                                     contentHtml = HttpHelper.GetString(tempHref)
+                                                 End If
 
-                                             Dim title = GetCharpterTitle(contentHtml, rule.CharpterTitleRule)
-                                             Dim content = GetCharpterTitle(contentHtml, rule.CharpterContentRule)
-                                             content = RemoveSpecKey(content)
-                                             Dim sb = New StringBuilder
-                                             With sb
-                                                 .Append(title).AppendLine.AppendLine()
-                                                 .Append(content)
-                                             End With
-                                             Dim savePath As String = IO.Path.Combine(nvDir, idx & ".txt")
-                                             IO.File.WriteAllText(savePath, sb.ToString)
-                                             If StopDownFlag Then Return
-                                             RaiseEvent ShowInfo(String.Format("第{0}/{1}完成", idx, count))
-                                             DoneCount += 1
+                                                 Dim title = GetCharpterTitle(contentHtml, rule.CharpterTitleRule)
+                                                 Dim content = GetCharpterTitle(contentHtml, rule.CharpterContentRule)
+                                                 content = RemoveSpecKey(content)
+                                                 Dim sb = New StringBuilder
+                                                 With sb
+                                                     .Append(title).AppendLine.AppendLine()
+                                                     .Append(content)
+                                                 End With
+                                                 Dim savePath As String = IO.Path.Combine(nvDir, idx & ".txt")
+                                                 IO.File.WriteAllText(savePath, sb.ToString)
+                                                 If StopDownFlag Then Return
+                                                 RaiseEvent ShowInfo(String.Format("第{0}/{1}完成", idx, count))
+                                                 DoneCount += 1
+                                             Catch ex As Exception
+                                                 reTryCount += 1
+                                                 If reTryCount > 5 Then
+                                                     RaiseEvent ShowInfo(String.Format("第{0}/{1}获取失败！", idx, count))
+                                                 Else
+                                                     RaiseEvent ShowInfo(String.Format("第{0}/{1}重新获取中({2}/5)！", idx, count, reTryCount))
+                                                     GoTo RetryStartPos
+                                                 End If
+                                             End Try
                                          End Sub)
             index += 1
         Next
@@ -121,20 +133,34 @@ Public Class NV
         Return GetInnerText(html, rule)
     End Function
 
+
+#Region "HtmlDocument"
     Shared Function GetInnerText(html As String, rule As String) As String
-        Dim doc = New HtmlDocument()
-        doc.LoadHtml(html)
+        Dim doc As HtmlDocument = GetHtmlDocAndLoadHtml(html)
         Dim node As HtmlNode = doc.DocumentNode.SelectSingleNode(rule)
-        Return node.InnerText
+        If Not IsNothing(node) Then
+            Return node.InnerText
+        End If
+        Return String.Empty
     End Function
 
     Shared Function GetInnerHtml(html As String, rule As String) As String
-        Dim doc = New HtmlDocument()
-        doc.LoadHtml(html)
+        Dim doc As HtmlDocument = GetHtmlDocAndLoadHtml(html)
         Dim node As HtmlNode = doc.DocumentNode.SelectSingleNode(rule)
-        Return node.InnerHtml
+        If Not IsNothing(node) Then
+            Return node.InnerHtml
+        End If
+        Return String.Empty
     End Function
 
+    Shared Function GetHtmlDocAndLoadHtml(html As String) As HtmlDocument
+        Dim doc = New HtmlDocument()
+        doc.LoadHtml(html)
+        Return doc
+    End Function
+#End Region
+
+#Region "合并文件"
     Shared Sub combinFile(folder As String, filePath As String)
         Dim files = IO.Directory.GetFiles(folder)
         If Not IO.File.Exists(filePath) Then
@@ -160,12 +186,16 @@ Public Class NV
         Call Process.Start(folder)
         RaiseEvent ShowInfo("合并完成！")
     End Sub
+#End Region
 
+#Region "去除特殊字符"
     Shared Function RemoveSpecKey(sourceStr As String) As String
         Dim result = Regex.Replace(sourceStr, "[&nbsp;,<br>]", String.Empty)
         Return result
     End Function
+#End Region
 
+#Region "正则匹配"
     Shared Function RegexMatch(rule As String, matchStr As String) As Match
         Dim reg = New Regex(rule)
         Dim m = reg.Match(matchStr)
@@ -177,4 +207,6 @@ Public Class NV
         Dim mc = reg.Matches(matchStr)
         Return mc
     End Function
+#End Region
+
 End Class
