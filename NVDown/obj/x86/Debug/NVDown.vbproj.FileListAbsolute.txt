@@ -27,3 +27,4 @@ E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.vbproj.
 E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.exe
 E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.xml
 E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.pdb
+E:\Visual Studio 2010\Projects\NVDown\NVDown\NVDown\obj\x86\Debug\NVDown.vbprojResolveAssemblyReference.cache

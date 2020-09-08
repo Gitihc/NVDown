@@ -4,6 +4,7 @@ Imports HtmlAgilityPack
 Imports System.Text
 Imports System.Threading
 Imports System.IO
+Imports System.Threading.Tasks
 
 Public Class Form1
 
@@ -52,7 +53,9 @@ Public Class Form1
             If Not IsNothing(r) Then
                 btn_start.Text = IIf(btn_start.Text = "start", "stop", "start")
                 NV.StopDownFlag = False
-                NV.DoTask(link, r)
+                Task.Factory.StartNew(New Action(Sub()
+                                                     NV.DoTask(link, r)
+                                                 End Sub))
             Else
                 ShowInfo("未找到匹配规则！")
             End If
@@ -174,7 +177,7 @@ Public Class Form1
     End Sub
 
 #End Region
-    
+
 #Region "测试"
 #Region "目录"
 
@@ -201,7 +204,7 @@ Public Class Form1
 
         Dim linkRule = txt_test_link.Text
 
-     
+
 
         Dim pageHtml = HttpHelper.GetString(url)
 
